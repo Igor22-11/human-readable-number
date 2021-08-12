@@ -1,50 +1,44 @@
-module.exports = function toReadable (number) {
-  
-    let num = {
-        0:['','one','two','three','four', 'five','six','seven','eight','nine'],
-        1:['ten','eleven','twelve','thirteen', 'fourteen','fifteen','sixteen', 'seventeen','eighteen','nineteen'],
-        2:['','','twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'],
-        3:['hundred','thousand','million', 'billion','trillion'],
-    
-    
-    };
-    number = number.toString().split('');
+module.exports = function toReadable(number) {
+  const words = {
+    0: "zero",
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+    10: "ten",
+    11: "eleven",
+    12: "twelve",
+    13: "thirteen",
+    14: "fourteen",
+    15: "fifteen",
+    16: "sixteen",
+    17: "seventeen",
+    18: "eighteen",
+    19: "nineteen",
+    20: "twenty",
+    30: "thirty",
+    40: "forty",
+    50: "fifty",
+    60: "sixty",
+    70: "seventy",
+    80: "eighty",
+    90: "ninety",
+  };
 
-    if (number[0] == 0) {
-        return 'zero';
+  if (number < 100) {
+    if (number < 20 || number % 10 == 0) {
+      return (words[number]);
+    } else {
+      return (words[Math.floor(number / 10) * 10] + " " + words[number.toString().slice(-1)]);
     }
-    if (number.length == 1) {
-        return num[0][number];
-    }
-    else if (number.length == 2) {
-        if (number[0] == 1) 
-            return num[1][number[1]];
-        
-        
-        else if (number[1] == 0) 
-           return num[2][number[0]];
-        
-        else 
-            return num[2][number[0]] + ' ' + num[0][number[1]];
-        
-    } 
-    else if (number.length == 3) {
-        if (number[1] == 0 && number[2] == 0) 
-        return  num[0][number[0]] +' ' + num[3][0] ;
-
-        else if (number[1] == 1) 
-        return num[0][number[0]] +' ' + num[3][0]+ ' ' +num[1][number[2]];
-
-        else if (number[1] == 0) 
-            return num[0][number[0]] + ' ' +num[3][0] + ' ' + num[0][number[2]];
-        
-        else if (number[2] == 0) 
-        return num[0][number[0]] + ' ' +num[3][0] + ' ' + num[2][number[1]];
-        
-        else 
-            return num[0][number[0]] + ' ' + num[3][0] + ' ' + num[2][number[1]] + ' ' + num[0][number[2]];
-        
-        
-    } 
-    
-}  
+  } else if (number % 100 !== 0) {
+    return (words[Math.floor(number / 100)] + " hundred " + toReadable(parseInt(number.toString().slice(-2))));
+  } else {
+    return (words[(number / 100)] + " hundred");
+  }
+}
